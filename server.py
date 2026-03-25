@@ -333,12 +333,24 @@ def set_newsletter_preferences(
         return {"error": str(e)}
 
 
-@mcp.custom_route("/health", methods=["GET"])
-async def health(request):
-    from starlette.responses import JSONResponse
-    return JSONResponse({"status": "ok"})
-
-
 if __name__ == "__main__":
-    logger.info("Starting Verdian Salesforce MCP server on port 8000")
-    mcp.run(transport="streamable-http", host="0.0.0.0", port=8000)
+    import uvicorn
+    from starlette.responses import JSONResponse
+
+    port = int(os.environ.get("PORT", 8000))
+
+    # Get the MCP ASGI app (serves on /mcp/)
+    app = mcp.http_app()
+
+    # Add health endpoint directly via ASGI wrapper
+    original_app = app
+
+    async def wrapped_app(scope, receive, send):
+        if scope["type"] == "http" and scope["path"] == "/health":
+            response = JSONResponse({"status": "ok", "service": "verdian-salesforce-mcp"})
+            await response(scope, receive, send)
+        else:
+            await original_app(scope, receive, send)
+
+    logger.info("Starting Verdian Salesforce MCP server on port %d", port)
+    uvicorn.run(wrapped_app, host="0.0.0.0", port=port)
