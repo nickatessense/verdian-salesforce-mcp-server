@@ -1,3 +1,5 @@
 fastmcp
 simple-salesforce
 requests
+uvicorn
+starlette
