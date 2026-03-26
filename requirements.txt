@@ -3,3 +3,4 @@ simple-salesforce
 requests
 uvicorn>=0.30
 starlette>=0.40
+
