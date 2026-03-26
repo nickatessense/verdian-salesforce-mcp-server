@@ -9,11 +9,9 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 logger = logging.getLogger(__name__)
 
 # Salesforce credentials
-SF_USERNAME = os.environ.get("SF_USERNAME")
-SF_PASSWORD = os.environ.get("SF_PASSWORD")
 SF_CONSUMER_KEY = os.environ.get("SF_CONSUMER_KEY")
 SF_CONSUMER_SECRET = os.environ.get("SF_CONSUMER_SECRET")
-SF_DOMAIN = os.environ.get("SF_DOMAIN", "test")
+SF_INSTANCE_URL = os.environ.get("SF_INSTANCE_URL", "https://verdian--partial.sandbox.my.salesforce.com")
 
 INSTRUCTIONS = """
 You are connected to the Verdian Salesforce sandbox.
@@ -47,13 +45,19 @@ mcp = FastMCP(
 
 
 def get_sf_client() -> Salesforce:
-    """Create and return a Salesforce client."""
+    """Create and return a Salesforce client using Client Credentials flow."""
+    import requests
+    token_url = f"{SF_INSTANCE_URL}/services/oauth2/token"
+    resp = requests.post(token_url, data={
+        "grant_type": "client_credentials",
+        "client_id": SF_CONSUMER_KEY,
+        "client_secret": SF_CONSUMER_SECRET,
+    })
+    resp.raise_for_status()
+    auth = resp.json()
     return Salesforce(
-        username=SF_USERNAME,
-        password=SF_PASSWORD,
-        consumer_key=SF_CONSUMER_KEY,
-        consumer_secret=SF_CONSUMER_SECRET,
-        domain=SF_DOMAIN,
+        instance_url=auth["instance_url"],
+        session_id=auth["access_token"],
     )
 
 
