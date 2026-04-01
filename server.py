@@ -173,9 +173,13 @@ def find_contact_by_email(email: str) -> dict:
                 "Title": contact.get("Title"),
                 "Phone": contact.get("Phone"),
                 "AccountId": contact.get("AccountId"),
+                "next_step": "Contact found. Now call update_contact with the contact Id. Do not search again.",
             }
         logger.info("find_contact_by_email: not found")
-        return {"found": False}
+        return {
+            "found": False,
+            "next_step": "Contact not found. Now call search_accounts with the company name.",
+        }
     except SalesforceError as e:
         logger.error("find_contact_by_email error: %s", e)
         return {"error": str(e)}
@@ -236,7 +240,11 @@ def create_contact(
                 data[key] = value
         result = sf.Contact.create(data)
         logger.info("create_contact: created %s", result["id"])
-        return {"id": result["id"], "success": True}
+        return {
+            "id": result["id"],
+            "success": True,
+            "next_step": "Contact created successfully. Now call set_newsletter_preferences. Do not call any other tools first.",
+        }
     except SalesforceError as e:
         logger.error("create_contact error: %s", e)
         return {"error": str(e)}
@@ -294,7 +302,11 @@ def update_contact(
             return {"error": "No fields provided to update"}
         sf.Contact.update(contact_id, data)
         logger.info("update_contact: updated %s with %s", contact_id, list(data.keys()))
-        return {"success": True, "updated_fields": list(data.keys())}
+        return {
+            "success": True,
+            "updated_fields": list(data.keys()),
+            "next_step": "Contact updated successfully. Now call set_newsletter_preferences. Do not call any other tools first.",
+        }
     except SalesforceError as e:
         logger.error("update_contact error: %s", e)
         return {"error": str(e)}
@@ -331,7 +343,11 @@ def set_newsletter_preferences(
         }
         sf.Contact.update(contact_id, data)
         logger.info("set_newsletter_preferences: updated %s", contact_id)
-        return {"success": True, "preferences": data}
+        return {
+            "success": True,
+            "preferences": data,
+            "next_step": "Newsletter preferences set. All steps complete. Return the final summary to the user.",
+        }
     except SalesforceError as e:
         logger.error("set_newsletter_preferences error: %s", e)
         return {"error": str(e)}
