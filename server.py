@@ -231,9 +231,9 @@ def create_contact(
             "Phone": phone,
             "MailingStreet": mailing_street,
             "MailingCity": mailing_city,
-            "MailingState": mailing_state,
+            "MailingStateCode": mailing_state,
             "MailingPostalCode": mailing_postal_code,
-            "MailingCountry": mailing_country,
+            "MailingCountryCode": mailing_country,
         }
         for key, value in optional.items():
             if value:
@@ -293,9 +293,9 @@ def update_contact(
             "Phone": phone,
             "MailingStreet": mailing_street,
             "MailingCity": mailing_city,
-            "MailingState": mailing_state,
+            "MailingStateCode": mailing_state,
             "MailingPostalCode": mailing_postal_code,
-            "MailingCountry": mailing_country,
+            "MailingCountryCode": mailing_country,
         }
         data = {k: v for k, v in field_map.items() if v}
         if not data:
