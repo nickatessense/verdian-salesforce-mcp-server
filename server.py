@@ -199,6 +199,7 @@ def create_contact(
     mailing_postal_code: str = "",
     mailing_country: str = "",
     newspack_user_id: str = "",
+    company_name_text: str = "",
 ) -> dict:
     """Create a new Contact in Salesforce linked to an Account.
 
@@ -215,6 +216,7 @@ def create_contact(
         mailing_postal_code: Mailing postal/ZIP code (optional).
         mailing_country: Mailing country (optional).
         newspack_user_id: Newspack User ID (optional).
+        company_name_text: Company name as free text (optional).
 
     Returns:
         The new Contact Id.
@@ -237,6 +239,7 @@ def create_contact(
             "MailingPostalCode": mailing_postal_code,
             "MailingCountryCode": mailing_country,
             "Newspack_Member_User_ID__c": newspack_user_id,
+            "Company_Name_Text__c": company_name_text,
         }
         for key, value in optional.items():
             if value:
