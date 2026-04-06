@@ -198,6 +198,7 @@ def create_contact(
     mailing_state: str = "",
     mailing_postal_code: str = "",
     mailing_country: str = "",
+    newspack_user_id: str = "",
 ) -> dict:
     """Create a new Contact in Salesforce linked to an Account.
 
@@ -213,6 +214,7 @@ def create_contact(
         mailing_state: Mailing state/province (optional).
         mailing_postal_code: Mailing postal/ZIP code (optional).
         mailing_country: Mailing country (optional).
+        newspack_user_id: Newspack User ID (optional).
 
     Returns:
         The new Contact Id.
@@ -234,6 +236,7 @@ def create_contact(
             "MailingStateCode": mailing_state,
             "MailingPostalCode": mailing_postal_code,
             "MailingCountryCode": mailing_country,
+            "Newspack_User_ID__c": newspack_user_id,
         }
         for key, value in optional.items():
             if value:
@@ -263,6 +266,7 @@ def update_contact(
     mailing_state: str = "",
     mailing_postal_code: str = "",
     mailing_country: str = "",
+    newspack_user_id: str = "",
 ) -> dict:
     """Update existing Contact fields in Salesforce.
 
@@ -278,6 +282,7 @@ def update_contact(
         mailing_state: Updated mailing state/province (optional).
         mailing_postal_code: Updated mailing postal/ZIP code (optional).
         mailing_country: Updated mailing country (optional).
+        newspack_user_id: Newspack User ID (optional).
 
     Returns:
         Success confirmation.
@@ -296,6 +301,7 @@ def update_contact(
             "MailingStateCode": mailing_state,
             "MailingPostalCode": mailing_postal_code,
             "MailingCountryCode": mailing_country,
+            "Newspack_User_ID__c": newspack_user_id,
         }
         data = {k: v for k, v in field_map.items() if v}
         if not data:
