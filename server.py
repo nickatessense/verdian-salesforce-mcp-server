@@ -236,7 +236,7 @@ def create_contact(
             "MailingStateCode": mailing_state,
             "MailingPostalCode": mailing_postal_code,
             "MailingCountryCode": mailing_country,
-            "Newspack_User_ID__c": newspack_user_id,
+            "Newspack_Member_User_ID__c": newspack_user_id,
         }
         for key, value in optional.items():
             if value:
@@ -301,7 +301,7 @@ def update_contact(
             "MailingStateCode": mailing_state,
             "MailingPostalCode": mailing_postal_code,
             "MailingCountryCode": mailing_country,
-            "Newspack_User_ID__c": newspack_user_id,
+            "Newspack_Member_User_ID__c": newspack_user_id,
         }
         data = {k: v for k, v in field_map.items() if v}
         if not data:
