@@ -186,6 +186,53 @@ def find_contact_by_email(email: str) -> dict:
 
 
 @mcp.tool()
+def find_contact_by_newspack_id(newspack_user_id: str) -> dict:
+    """Find a Salesforce Contact by Newspack Member User ID (Newspack_Member_User_ID__c).
+
+    Use this for returning/logged-in users where the Newspack user ID is known.
+    This is the preferred lookup method over email for deduplication.
+
+    Args:
+        newspack_user_id: The Newspack Member User ID to search for.
+
+    Returns:
+        Contact fields if found, or null indicator if not found.
+    """
+    logger.info("find_contact_by_newspack_id: newspack_user_id=%s", newspack_user_id)
+    try:
+        sf = get_sf_client()
+        sanitized = newspack_user_id.replace("'", "\\'")
+        query = (
+            f"SELECT Id, FirstName, LastName, Email, Title, Phone, AccountId "
+            f"FROM Contact WHERE Newspack_Member_User_ID__c = '{sanitized}' LIMIT 1"
+        )
+        result = sf.query(query)
+        records = result.get("records", [])
+        if records:
+            contact = records[0]
+            logger.info("find_contact_by_newspack_id: found %s", contact["Id"])
+            return {
+                "found": True,
+                "Id": contact["Id"],
+                "FirstName": contact.get("FirstName"),
+                "LastName": contact.get("LastName"),
+                "Email": contact.get("Email"),
+                "Title": contact.get("Title"),
+                "Phone": contact.get("Phone"),
+                "AccountId": contact.get("AccountId"),
+                "next_step": "Contact found. Now call update_contact with the contact Id. Do not search again.",
+            }
+        logger.info("find_contact_by_newspack_id: not found")
+        return {
+            "found": False,
+            "next_step": "Contact not found. Fall back to find_contact_by_email or call search_accounts with the company name.",
+        }
+    except SalesforceError as e:
+        logger.error("find_contact_by_newspack_id error: %s", e)
+        return {"error": str(e)}
+
+
+@mcp.tool()
 def create_contact(
     account_id: str,
     first_name: str,
