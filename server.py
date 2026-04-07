@@ -309,6 +309,7 @@ def create_contact(
 @mcp.tool()
 def update_contact(
     contact_id: str,
+    account_id: str = "",
     first_name: str = "",
     last_name: str = "",
     email: str = "",
@@ -326,6 +327,7 @@ def update_contact(
 
     Args:
         contact_id: The Salesforce Contact ID to update.
+        account_id: Salesforce Account ID to link the Contact to (optional).
         first_name: Updated first name (optional).
         last_name: Updated last name (optional).
         email: Updated email address (optional).
@@ -346,6 +348,7 @@ def update_contact(
     try:
         sf = get_sf_client()
         field_map = {
+            "AccountId": account_id,
             "FirstName": first_name,
             "LastName": last_name,
             "Email": email,
