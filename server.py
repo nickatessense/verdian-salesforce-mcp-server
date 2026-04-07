@@ -248,6 +248,7 @@ def create_contact(
     newspack_user_id: str = "",
     company_name_text: str = "",
     mailing_province_text: str = "",
+    ac_email_deliverability: str = "Active",
 ) -> dict:
     """Create a new Contact in Salesforce linked to an Account.
 
@@ -266,6 +267,7 @@ def create_contact(
         newspack_user_id: Newspack User ID (optional).
         company_name_text: Company name as free text (optional).
         mailing_province_text: Mailing province as free text (optional).
+        ac_email_deliverability: ActiveCampaign email deliverability status, "Active" or "Inactive" (default: "Active").
 
     Returns:
         The new Contact Id.
@@ -290,6 +292,7 @@ def create_contact(
             "Newspack_Member_User_ID__c": newspack_user_id,
             "Company_Name_Text__c": company_name_text,
             "Mailing_Province_Text__c": mailing_province_text,
+            "Active_Campaign_Email_Deliverability__c": ac_email_deliverability,
         }
         for key, value in optional.items():
             if value:
