@@ -225,7 +225,7 @@ def find_contact_by_newspack_id(newspack_user_id: str) -> dict:
         logger.info("find_contact_by_newspack_id: not found")
         return {
             "found": False,
-            "next_step": "Contact not found. Fall back to find_contact_by_email or call search_accounts with the company name.",
+            "next_step": "Contact not found for the provided Newspack User ID. Return an error to the user. Do NOT fall back to email lookup or create a new contact.",
         }
     except SalesforceError as e:
         logger.error("find_contact_by_newspack_id error: %s", e)
