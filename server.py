@@ -292,7 +292,7 @@ def create_contact(
             "Newspack_Member_User_ID__c": newspack_user_id,
             "Company_Name_Text__c": company_name_text,
             "Mailing_Province_Text__c": mailing_province_text,
-            "Active_Campaign_Email_Deliverability__c": ac_email_deliverability,
+            "Active_Campaign_Email_Deliveribility__c": ac_email_deliverability,
         }
         for key, value in optional.items():
             if value:
