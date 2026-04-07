@@ -247,6 +247,7 @@ def create_contact(
     mailing_country: str = "",
     newspack_user_id: str = "",
     company_name_text: str = "",
+    mailing_province_text: str = "",
 ) -> dict:
     """Create a new Contact in Salesforce linked to an Account.
 
@@ -264,6 +265,7 @@ def create_contact(
         mailing_country: Mailing country (optional).
         newspack_user_id: Newspack User ID (optional).
         company_name_text: Company name as free text (optional).
+        mailing_province_text: Mailing province as free text (optional).
 
     Returns:
         The new Contact Id.
@@ -287,6 +289,7 @@ def create_contact(
             "MailingCountryCode": mailing_country,
             "Newspack_Member_User_ID__c": newspack_user_id,
             "Company_Name_Text__c": company_name_text,
+            "Mailing_Province_Text__c": mailing_province_text,
         }
         for key, value in optional.items():
             if value:
@@ -317,6 +320,7 @@ def update_contact(
     mailing_postal_code: str = "",
     mailing_country: str = "",
     newspack_user_id: str = "",
+    mailing_province_text: str = "",
 ) -> dict:
     """Update existing Contact fields in Salesforce.
 
@@ -333,6 +337,7 @@ def update_contact(
         mailing_postal_code: Updated mailing postal/ZIP code (optional).
         mailing_country: Updated mailing country (optional).
         newspack_user_id: Newspack User ID (optional).
+        mailing_province_text: Mailing province as free text (optional).
 
     Returns:
         Success confirmation.
@@ -352,6 +357,7 @@ def update_contact(
             "MailingPostalCode": mailing_postal_code,
             "MailingCountryCode": mailing_country,
             "Newspack_Member_User_ID__c": newspack_user_id,
+            "Mailing_Province_Text__c": mailing_province_text,
         }
         data = {k: v for k, v in field_map.items() if v}
         if not data:
