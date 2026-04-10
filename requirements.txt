@@ -1,6 +1,5 @@
-fastmcp>=2.0,<3.0
-simple-salesforce
-requests
-uvicorn>=0.30
-starlette>=0.40
-
+fastmcp==2.13.3
+simple-salesforce==1.12.9
+requests==2.32.5
+uvicorn==0.35.0
+starlette==0.47.3
