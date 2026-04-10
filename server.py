@@ -421,6 +421,41 @@ def set_newsletter_preferences(
         return {"error": str(e)}
 
 
+@mcp.tool()
+def create_campaign_member(
+    contact_id: str,
+    campaign_id: str,
+    status: str = "Registered",
+) -> dict:
+    """Create a CampaignMember in Salesforce linking a Contact to a Campaign.
+
+    Args:
+        contact_id: The Salesforce Contact ID.
+        campaign_id: The Salesforce Campaign ID.
+        status: The member status (default: "Registered").
+
+    Returns:
+        The new CampaignMember Id.
+    """
+    logger.info(
+        "create_campaign_member: contact_id=%s campaign_id=%s status=%s",
+        contact_id, campaign_id, status,
+    )
+    try:
+        sf = get_sf_client()
+        data = {
+            "ContactId": contact_id,
+            "CampaignId": campaign_id,
+            "Status": status,
+        }
+        result = sf.CampaignMember.create(data)
+        logger.info("create_campaign_member: created %s", result["id"])
+        return {"id": result["id"], "success": True}
+    except SalesforceError as e:
+        logger.error("create_campaign_member error: %s", e)
+        return {"error": str(e)}
+
+
 if __name__ == "__main__":
     import uvicorn
     from starlette.responses import JSONResponse
