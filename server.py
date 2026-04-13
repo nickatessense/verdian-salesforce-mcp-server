@@ -325,6 +325,7 @@ def update_contact(
     mailing_country: str = "",
     newspack_user_id: str = "",
     mailing_province_text: str = "",
+    ac_email_deliverability: str = "",
 ) -> dict:
     """Update existing Contact fields in Salesforce.
 
@@ -343,6 +344,7 @@ def update_contact(
         mailing_country: Updated mailing country (optional).
         newspack_user_id: Newspack User ID (optional).
         mailing_province_text: Mailing province as free text (optional).
+        ac_email_deliverability: ActiveCampaign email deliverability status, "Active" or "Inactive" (optional).
 
     Returns:
         Success confirmation.
@@ -364,6 +366,7 @@ def update_contact(
             "MailingCountryCode": mailing_country,
             "Newspack_Member_User_ID__c": newspack_user_id,
             "Mailing_Province_Text__c": mailing_province_text,
+            "Active_Campaign_Email_Deliveribility__c": ac_email_deliverability,
         }
         data = {k: v for k, v in field_map.items() if v}
         if not data:
