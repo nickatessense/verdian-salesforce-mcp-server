@@ -324,6 +324,7 @@ def update_contact(
     mailing_postal_code: str = "",
     mailing_country: str = "",
     newspack_user_id: str = "",
+    company_name_text: str = "",
     mailing_province_text: str = "",
     ac_email_deliverability: str = "",
 ) -> dict:
@@ -343,6 +344,7 @@ def update_contact(
         mailing_postal_code: Updated mailing postal/ZIP code (optional).
         mailing_country: Updated mailing country (optional).
         newspack_user_id: Newspack User ID (optional).
+        company_name_text: Company name as free text (optional).
         mailing_province_text: Mailing province as free text (optional).
         ac_email_deliverability: ActiveCampaign email deliverability status, "Active" or "Inactive" (optional).
 
@@ -365,6 +367,7 @@ def update_contact(
             "MailingPostalCode": mailing_postal_code,
             "MailingCountryCode": mailing_country,
             "Newspack_Member_User_ID__c": newspack_user_id,
+            "Company_Name_Text__c": company_name_text,
             "Mailing_Province_Text__c": mailing_province_text,
             "Active_Campaign_Email_Deliveribility__c": ac_email_deliverability,
         }
